@@ -1,10 +1,12 @@
 package de.inkvine.dota2stats.domain.matchdetail.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import de.inkvine.dota2stats.domain.LeaverStatus;
 import de.inkvine.dota2stats.domain.impl.MatchOverviewPlayerImpl;
+import de.inkvine.dota2stats.domain.matchdetail.impl.ItemImpl;
 import de.inkvine.dota2stats.domain.matchdetail.Item;
 import de.inkvine.dota2stats.domain.matchdetail.MatchDetailPlayer;
 
@@ -32,7 +34,7 @@ public class MatchDetailPlayerImpl extends MatchOverviewPlayerImpl implements
 	private static final String KEY_GOLD_SPENT = "gold_spent";
 	private static final String KEY_HERO_DAMAGE = "hero_damage";
 	private static final String KEY_TOWER_DAMAGE = "tower_damage";
-	private static final String KEY_HERO_HEALING = "tower_damage";
+	private static final String KEY_HERO_HEALING = "hero_healing";
 	private static final String KEY_LEVEL = "level";
 
 	private static final String KEY_ABILITY_UPGRADES = "ability_upgrades";
@@ -54,8 +56,15 @@ public class MatchDetailPlayerImpl extends MatchOverviewPlayerImpl implements
 
 	@Override
 	public List<Item> getItems() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Item> returnableItems = new ArrayList<Item>();
+		returnableItems.add(new ItemImpl(((Double)jsonMap.get(KEY_ITEM_0)).intValue()));
+		returnableItems.add(new ItemImpl(((Double)jsonMap.get(KEY_ITEM_1)).intValue()));
+		returnableItems.add(new ItemImpl(((Double)jsonMap.get(KEY_ITEM_2)).intValue()));
+		returnableItems.add(new ItemImpl(((Double)jsonMap.get(KEY_ITEM_3)).intValue()));
+		returnableItems.add(new ItemImpl(((Double)jsonMap.get(KEY_ITEM_4)).intValue()));
+		returnableItems.add(new ItemImpl(((Double)jsonMap.get(KEY_ITEM_5)).intValue()));
+		return returnableItems;
 	}
 
 	@Override
@@ -148,6 +157,11 @@ public class MatchDetailPlayerImpl extends MatchOverviewPlayerImpl implements
 		sb.append("---- XPM: " + getXPPerMinute() + "\n");
 		sb.append("---- GPM: " + getGoldPerMinute() + "\n");
 		sb.append("---- HeroLevel: " + getHeroLevel() + "\n");	
+		
+		List<Item> returnableItems = getItems();
+		int i=0;
+		for(Item item:returnableItems)
+			sb.append("---- Item_" + i++ +" "+ item.toString()+ "\n");
 
 		return super.toString() + sb.toString();
 	}
